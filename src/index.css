@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #050505;
+  --surface: #0F0F0F;
+  --border: #262626;
+  --ink: #FAFAFA;
+  --ink-muted: #8A8A8A;
+  --accent: #E5E5E5;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Typography Tokens */
+.font-display {
+  font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.font-tech {
+  font-family: 'Space Grotesk', ui-monospace, monospace;
+}
+
+/* Hairline Cards & Borders */
+.hairline-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.hairline-border {
+  border-color: var(--border);
+}
+
+/* Monochromatic Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Text Stroke / Outline for Marquee */
+.text-stroke-outline {
+  -webkit-text-stroke: 1px rgba(250, 250, 250, 0.4);
+  color: transparent;
+}
+
+.text-stroke-outline:hover {
+  color: #FAFAFA;
+  -webkit-text-stroke: 1px #FAFAFA;
+}
+
+/* Subtle Text Glitch / RGB Split Keyframes for Headline */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glitch-text::before {
+  left: -1.5px;
+  text-shadow: 1px 0 #00ffff;
+  clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%);
+  animation: glitchCyan 6s infinite;
+}
+
+.glitch-text::after {
+  left: 1.5px;
+  text-shadow: -1px 0 #ff0055;
+  clip-path: polygon(0 60%, 100% 60%, 100% 85%, 0 85%);
+  animation: glitchRed 6s infinite;
+}
+
+@keyframes glitchCyan {
+  0%, 94%, 100% { opacity: 0; transform: translate(0); }
+  95% { opacity: 0.9; transform: translate(-2px, -1px); }
+  96% { opacity: 0; transform: translate(0); }
+  97% { opacity: 0.8; transform: translate(1px, 1px); }
+  98% { opacity: 0; transform: translate(0); }
+}
+
+@keyframes glitchRed {
+  0%, 94%, 100% { opacity: 0; transform: translate(0); }
+  95% { opacity: 0.9; transform: translate(2px, 1px); }
+  96% { opacity: 0; transform: translate(0); }
+  97% { opacity: 0.8; transform: translate(-1px, -1px); }
+  98% { opacity: 0; transform: translate(0); }
+}
+
+/* Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
+}
