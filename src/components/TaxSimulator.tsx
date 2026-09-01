@@ -43,7 +43,7 @@ export const TaxSimulator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 border border-[#262626] bg-[#0F0F0F]">
           
           {/* Left Inputs (Span 7) */}
-          <div className="lg:col-span-7 p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-[#262626] space-y-8 text-left">
+          <div className="lg:col-span-7 p-5 sm:p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-[#262626] space-y-6 sm:space-y-8 text-left">
             
             {/* 1. Segmento */}
             <div>
@@ -154,7 +154,7 @@ export const TaxSimulator: React.FC = () => {
           </div>
 
           {/* Right Output Results (Span 5) */}
-          <div className="lg:col-span-5 p-8 sm:p-12 bg-[#050505] flex flex-col justify-between text-left space-y-6">
+          <div className="lg:col-span-5 p-5 sm:p-8 lg:p-12 bg-[#050505] flex flex-col justify-between text-left space-y-6">
             
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-[#262626] mb-6">
@@ -167,11 +167,11 @@ export const TaxSimulator: React.FC = () => {
               </div>
 
               {/* Big Savings Block */}
-              <div className="p-6 border border-[#262626] bg-[#0F0F0F] mb-6">
+              <div className="p-4 sm:p-6 border border-[#262626] bg-[#0F0F0F] mb-6">
                 <div className="font-tech text-[10px] text-[#8A8A8A] uppercase tracking-widest mb-1">
                   ECONOMIA ANUAL ESTIMADA
                 </div>
-                <div className="text-3xl sm:text-5xl font-display text-[#FAFAFA] tracking-tight">
+                <div className="text-2xl sm:text-4xl md:text-5xl font-display text-[#FAFAFA] tracking-tight">
                   ~{formatBRL(result.annualSavings)}
                 </div>
                 <div className="font-tech text-xs text-[#8A8A8A] mt-2">

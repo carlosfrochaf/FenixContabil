@@ -43,7 +43,7 @@ export const ParticleCanvas: React.FC = () => {
     window.addEventListener('resize', handleResize);
 
     // =========================================================================
-    // PARTICLE ENGINE: SAMPLING THE NEW BLACK SILHOUETTE AS WHITE PARTICLES
+    // PARTICLE ENGINE: RESPONSIVE SAMPLING & SHARP WHITE PARTICLES
     // =========================================================================
     interface PhoenixDot {
       x0: number;
@@ -75,7 +75,7 @@ export const ParticleCanvas: React.FC = () => {
       offCtx.drawImage(img, 0, 0, sampleWidth, sampleHeight);
       const imgData = offCtx.getImageData(0, 0, sampleWidth, sampleHeight).data;
 
-      // Sample pixels with high precision step (step = 2.8)
+      // Sample pixels with step
       const step = 2.8;
       for (let y = 0; y < sampleHeight; y += step) {
         for (let x = 0; x < sampleWidth; x += step) {
@@ -85,12 +85,11 @@ export const ParticleCanvas: React.FC = () => {
           const b = imgData[index + 2];
           const brightness = (r + g + b) / 3;
 
-          // The phoenix is black (dark pixels) on white background in the image
+          // The phoenix is black on white background
           if (brightness < 120) {
-            const posX = (x - sampleWidth / 2) * 1.15;
-            const posY = (y - sampleHeight / 2) * 1.15;
-
-            // Density opacity based on dark pixel intensity
+            // Adaptive scale factor based on screen width
+            const posX = (x - sampleWidth / 2) * 1.05;
+            const posY = (y - sampleHeight / 2) * 1.05;
             const alphaVal = 1 - (brightness / 255);
 
             particles.push({
@@ -110,48 +109,61 @@ export const ParticleCanvas: React.FC = () => {
     };
 
     // =========================================================================
-    // MOUSE TRACKING: 100% STATIC BY DEFAULT, ONLY INTERACTS ON HOVER / TOUCH
+    // MOUSE & TOUCH TRACKING (MOBILE OPTIMIZED)
     // =========================================================================
-    const mouse = {
+    const pointer = {
       x: -1000,
       y: -1000,
       isInside: false,
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (clientX: number, clientY: number) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.isInside = true;
-      setStatusText('INTERAÇÃO // CURSOR ATIVO');
+      pointer.x = clientX - rect.left;
+      pointer.y = clientY - rect.top;
+      pointer.isInside = true;
+      setStatusText('INTERAÇÃO // TOQUE ATIVO');
     };
 
-    const handleMouseLeave = () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-      mouse.isInside = false;
+    const handlePointerLeave = () => {
+      pointer.x = -1000;
+      pointer.y = -1000;
+      pointer.isInside = false;
       setStatusText('ESTÁTICO // EM ESPERA');
     };
 
+    const onMouseMove = (e: MouseEvent) => handlePointerMove(e.clientX, e.clientY);
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
     let explosionFactor = 0;
-    const handleClick = () => {
+    const triggerRebirth = () => {
       explosionFactor = 1.0;
       setStatusText('RENASCIMENTO // DISPERSÃO');
       setTimeout(() => setStatusText('ESTÁTICO // EM ESPERA'), 1200);
     };
 
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-    canvas.addEventListener('click', handleClick);
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseleave', handlePointerLeave);
+    canvas.addEventListener('click', triggerRebirth);
+    canvas.addEventListener('touchstart', onTouchMove, { passive: true });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: true });
+    canvas.addEventListener('touchend', handlePointerLeave, { passive: true });
 
     // =========================================================================
-    // RENDER LOOP (STATIC, SHARP, ELASTIC RETURN)
+    // RENDER LOOP (STATIC, RESPONSIVE SCALE, NO OVERFLOW)
     // =========================================================================
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
       const cx = width / 2;
       const cy = height / 2;
+
+      // Scale responsiveness: auto shrink on small mobile devices
+      const responsiveScale = Math.min(1, (width - 40) / 440);
 
       // Decay explosion burst
       if (explosionFactor > 0) {
@@ -162,41 +174,41 @@ export const ParticleCanvas: React.FC = () => {
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
 
-          // 100% Static base position
-          let targetX = p.x0;
-          let targetY = p.y0;
+          // Scaled static base position
+          let targetX = p.x0 * responsiveScale;
+          let targetY = p.y0 * responsiveScale;
 
-          // Only interact when cursor is inside and near the particle
-          if (mouse.isInside) {
+          // Pointer interaction (mouse or touch)
+          if (pointer.isInside) {
             const screenX = cx + targetX;
             const screenY = cy + targetY;
-            const distToMouse = Math.hypot(mouse.x - screenX, mouse.y - screenY);
+            const dist = Math.hypot(pointer.x - screenX, pointer.y - screenY);
 
-            const INTERACTION_RADIUS = 90;
-            if (distToMouse < INTERACTION_RADIUS) {
-              const force = Math.pow((1 - distToMouse / INTERACTION_RADIUS), 1.6) * 28;
-              const angle = Math.atan2(screenY - mouse.y, screenX - mouse.x);
+            const INTERACTION_RADIUS = 85 * responsiveScale;
+            if (dist < INTERACTION_RADIUS) {
+              const force = Math.pow((1 - dist / INTERACTION_RADIUS), 1.6) * 26 * responsiveScale;
+              const angle = Math.atan2(screenY - pointer.y, screenX - pointer.x);
               targetX += Math.cos(angle) * force;
               targetY += Math.sin(angle) * force;
             }
           }
 
-          // Click explosion
+          // Click / Tap explosion
           if (explosionFactor > 0) {
-            targetX += p.vx * explosionFactor * 45;
-            targetY += p.vy * explosionFactor * 45;
+            targetX += p.vx * explosionFactor * 40 * responsiveScale;
+            targetY += p.vy * explosionFactor * 40 * responsiveScale;
           }
 
-          // Smooth spring return (0.22)
+          // Smooth spring return
           p.curX += (targetX - p.curX) * 0.22;
           p.curY += (targetY - p.curY) * 0.22;
 
           const finalX = cx + p.curX;
           const finalY = cy + p.curY;
 
-          // Draw white particle dot on dark canvas
+          // Render particle dot
           ctx.beginPath();
-          ctx.arc(finalX, finalY, p.size, 0, Math.PI * 2);
+          ctx.arc(finalX, finalY, p.size * Math.max(0.7, responsiveScale), 0, Math.PI * 2);
           ctx.fillStyle = `rgba(250, 250, 250, ${p.alpha})`;
           ctx.fill();
         }
@@ -209,21 +221,24 @@ export const ParticleCanvas: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
-      canvas.removeEventListener('click', handleClick);
+      canvas.removeEventListener('mousemove', onMouseMove);
+      canvas.removeEventListener('mouseleave', handlePointerLeave);
+      canvas.removeEventListener('click', triggerRebirth);
+      canvas.removeEventListener('touchstart', onTouchMove);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', handlePointerLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[460px] lg:min-h-[580px] flex items-center justify-center select-none group cursor-crosshair bg-[#050505]">
+    <div className="relative w-full h-full min-h-[380px] sm:min-h-[460px] lg:min-h-[580px] flex items-center justify-center select-none group cursor-crosshair bg-[#050505] overflow-hidden">
       
       {/* 4 Corner Brackets in CSS (L-shaped borders) */}
-      <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t border-l border-[#FAFAFA]" />
-      <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t border-r border-[#FAFAFA]" />
-      <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b border-l border-[#FAFAFA]" />
-      <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b border-r border-[#FAFAFA]" />
+      <div className="absolute top-0 left-0 w-3 h-3 sm:w-3.5 sm:h-3.5 border-t border-l border-[#FAFAFA]" />
+      <div className="absolute top-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 border-t border-r border-[#FAFAFA]" />
+      <div className="absolute bottom-0 left-0 w-3 h-3 sm:w-3.5 sm:h-3.5 border-b border-l border-[#FAFAFA]" />
+      <div className="absolute bottom-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 border-b border-r border-[#FAFAFA]" />
 
       {/* 2D HTML5 Canvas */}
       <canvas 
@@ -232,31 +247,23 @@ export const ParticleCanvas: React.FC = () => {
       />
 
       {/* HUD System Labels */}
-      <div className="absolute top-4 left-4 flex items-center gap-2">
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 sm:gap-2">
         <span className="w-1.5 h-1.5 bg-[#FAFAFA]" />
-        <span className="text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest">
-          SYS.MODEL // PHOENIX.VECTOR.MATRIX
+        <span className="text-[9px] sm:text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest">
+          SYS.MODEL // PHOENIX.VECTOR
         </span>
       </div>
 
-      <div className="absolute top-4 right-4 text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest">
-        STATE: {statusText}
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 text-[9px] sm:text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest">
+        {statusText}
       </div>
 
-      <div className="absolute bottom-4 left-4 text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest hidden sm:block">
-        INTERAÇÃO: APENAS AO PASSAR O CURSOR
+      <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-[9px] sm:text-[10px] font-tech text-[#8A8A8A] uppercase tracking-widest hidden md:block">
+        INTERAÇÃO: AO TOCAR OU PASSAR CURSOR
       </div>
 
-      <div className="absolute bottom-4 right-4 text-[10px] font-tech text-[#FAFAFA] uppercase tracking-widest border border-[#262626] px-2.5 py-1 bg-[#0F0F0F]">
+      <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 text-[9px] sm:text-[10px] font-tech text-[#FAFAFA] uppercase tracking-widest border border-[#262626] px-2 py-0.5 sm:px-2.5 sm:py-1 bg-[#0F0F0F]">
         WINGSPAN: {wingspanCounter}%
-      </div>
-
-      {/* Subtle Central Crosshairs */}
-      <div className="absolute top-1/2 left-3 -translate-y-1/2 text-[9px] font-tech text-[#262626] pointer-events-none">
-        +
-      </div>
-      <div className="absolute top-1/2 right-3 -translate-y-1/2 text-[9px] font-tech text-[#262626] pointer-events-none">
-        +
       </div>
 
     </div>
