@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * TABELAS E PARÂMETROS TRIBUTÁRIOS - FÊNIX CONTÁBIL
+ * TABELAS E PARÂMETROS TRIBUTÁRIOS - MARIANI CONTÁBIL
  * ============================================================================
  * Este arquivo centraliza todas as faixas, alíquotas e deduções fiscais usadas
  * no simulador da landing page.

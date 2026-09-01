@@ -10,7 +10,7 @@ export const FaqSection: React.FC = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const whatsappFaqUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent("Olá. Gostaria de esclarecer uma dúvida técnica sobre os serviços da Fênix Contábil.")}`;
+  const whatsappFaqUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent("Olá. Gostaria de esclarecer uma dúvida técnica sobre os serviços da Mariani Contábil.")}`;
 
   return (
     <section id="faq" className="py-24 border-b border-[#262626] bg-[#050505]">
@@ -75,7 +75,7 @@ export const FaqSection: React.FC = () => {
         <div className="p-8 border border-[#262626] bg-[#0F0F0F] flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
           <div>
             <h4 className="font-tech text-sm font-bold text-[#FAFAFA] uppercase">Tem uma demanda tributária específica?</h4>
-            <p className="text-xs font-tech text-[#8A8A8A] mt-0.5">Fale diretamente com os sócios e auditores contábeis da Fênix.</p>
+            <p className="text-xs font-tech text-[#8A8A8A] mt-0.5">Fale diretamente com os sócios e auditores contábeis da Mariani.</p>
           </div>
           <a
             href={whatsappFaqUrl}

@@ -186,7 +186,7 @@ export const TaxSimulator: React.FC = () => {
                   <span className="text-[#FAFAFA] font-bold">{formatBRL(result.currentMonthlyTax)}/mês (~{(result.currentEffectiveRate * 100).toFixed(1)}%)</span>
                 </div>
                 <div className="flex justify-between p-3 border border-[#FAFAFA] bg-[#0F0F0F]">
-                  <span className="text-[#FAFAFA] font-bold">Com Fênix Contábil:</span>
+                  <span className="text-[#FAFAFA] font-bold">Com Mariani Contábil:</span>
                   <span className="text-[#FAFAFA] font-bold">{formatBRL(result.fenixMonthlyTax)}/mês (~{(result.fenixEffectiveRate * 100).toFixed(1)}%)</span>
                 </div>
               </div>

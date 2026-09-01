@@ -32,7 +32,7 @@ export const ComparisonTable: React.FC<ComparisonProps> = ({ onOpenDiagnostic })
     {
       parameter: "MIGRAÇÃO DE ESCRITÓRIO",
       conventional: "Processo desgastante e com atrito entre contadores.",
-      fenix: "A Fênix assume 100% da transição técnica em até 48 horas.",
+      fenix: "A Mariani assume 100% da transição técnica em até 48 horas.",
     },
     {
       parameter: "PROPOSTA DE VALOR",
@@ -52,7 +52,7 @@ export const ComparisonTable: React.FC<ComparisonProps> = ({ onOpenDiagnostic })
               [ MATRIZ DE DIFERENCIAÇÃO ]
             </span>
             <h2 className="font-display text-3xl sm:text-5xl text-[#FAFAFA] tracking-tight">
-              MÉTODO CONVENCIONAL VS FÊNIX.
+              MÉTODO CONVENCIONAL VS MARIANI.
             </h2>
           </div>
           <div className="lg:col-span-4 text-left lg:text-right">
@@ -69,7 +69,7 @@ export const ComparisonTable: React.FC<ComparisonProps> = ({ onOpenDiagnostic })
           <div className="grid grid-cols-1 md:grid-cols-12 bg-[#0F0F0F] text-xs font-bold uppercase tracking-wider text-[#FAFAFA] p-4 sm:p-6 select-none">
             <div className="md:col-span-4 text-[#8A8A8A]">PARÂMETRO OPERACIONAL</div>
             <div className="md:col-span-4 text-[#8A8A8A] mt-2 md:mt-0">CONTABILIDADE CONVENCIONAL</div>
-            <div className="md:col-span-4 text-[#FAFAFA] mt-2 md:mt-0">PADRÃO FÊNIX CONTÁBIL</div>
+            <div className="md:col-span-4 text-[#FAFAFA] mt-2 md:mt-0">PADRÃO MARIANI CONTÁBIL</div>
           </div>
 
           {/* Rows */}

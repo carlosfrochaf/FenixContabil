@@ -23,7 +23,7 @@ export const MigrationSteps: React.FC<MigrationStepsProps> = ({ onOpenDiagnostic
     {
       num: "03",
       title: "Transição Técnica Direta",
-      desc: "A Fênix solicita livros, certidões e histórico fiscal ao contador anterior sem desgaste para o cliente.",
+      desc: "A Mariani solicita livros, certidões e histórico fiscal ao contador anterior sem desgaste para o cliente.",
     },
     {
       num: "04",
@@ -32,7 +32,7 @@ export const MigrationSteps: React.FC<MigrationStepsProps> = ({ onOpenDiagnostic
     }
   ];
 
-  const whatsappUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent("Olá. Gostaria de iniciar o processo de migração para a Fênix Contábil.")}`;
+  const whatsappUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent("Olá. Gostaria de iniciar o processo de migração para a Mariani Contábil.")}`;
 
   return (
     <section id="migracao" className="py-24 border-b border-[#262626] bg-[#050505]">

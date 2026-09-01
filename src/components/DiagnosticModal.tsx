@@ -27,7 +27,7 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({ isOpen, onClos
       pf_para_pj: "Transição PF para PJ"
     };
 
-    const message = `Olá Fênix Contábil.
+    const message = `Olá Mariani Contábil.
 
 Solicito Diagnóstico Fiscal:
 

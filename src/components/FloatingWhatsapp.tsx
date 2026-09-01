@@ -5,7 +5,7 @@ import { MessageSquare, X, ArrowUpRight } from 'lucide-react';
 export const FloatingWhatsapp: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const defaultWhatsappMessage = encodeURIComponent("Olá. Gostaria de falar com o time técnico da Fênix Contábil.");
+  const defaultWhatsappMessage = encodeURIComponent("Olá. Gostaria de falar com o time técnico da Mariani Contábil.");
   const whatsappUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${defaultWhatsappMessage}`;
 
   return (
@@ -17,7 +17,7 @@ export const FloatingWhatsapp: React.FC = () => {
           
           <div className="flex items-center justify-between pb-3 border-b border-[#262626] mb-3">
             <span className="text-[10px] text-[#FAFAFA] font-bold uppercase tracking-widest">
-              ATENDIMENTO // FÊNIX
+              ATENDIMENTO // MARIANI
             </span>
 
             <button

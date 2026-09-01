@@ -21,7 +21,7 @@ export const Logo: React.FC<LogoProps> = ({
       >
         <img 
           src="/phoenix-new.jpg" 
-          alt="Fênix Contábil" 
+          alt="Mariani Contábil" 
           className="w-full h-full object-contain invert brightness-200 contrast-125"
         />
       </div>
@@ -30,7 +30,7 @@ export const Logo: React.FC<LogoProps> = ({
       <div className="flex flex-col text-left">
         <div className="flex items-baseline gap-1.5 tracking-tighter">
           <span className={`font-display text-[#FAFAFA] ${textSize}`}>
-            FÊNIX
+            MARIANI
           </span>
           <span className={`font-tech font-light tracking-widest text-[#8A8A8A] text-xs`}>
             CONTÁBIL

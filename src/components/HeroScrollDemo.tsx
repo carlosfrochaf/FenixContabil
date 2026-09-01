@@ -18,7 +18,7 @@ export function HeroScrollDemo() {
       >
         <img
           src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
-          alt="Dashboard Executivo Fênix"
+          alt="Dashboard Executivo Mariani"
           height={720}
           width={1400}
           className="mx-auto rounded-2xl object-cover h-full w-full object-left-top grayscale contrast-125"

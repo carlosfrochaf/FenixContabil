@@ -65,7 +65,7 @@ export function calculatePfMonthlyTax(monthlyRevenue: number): number {
 }
 
 /**
- * Função principal de Simulação Tributária Fênix
+ * Função principal de Simulação Tributária Mariani
  */
 export function simulateTaxes(
   monthlyRevenue: number,
@@ -80,7 +80,7 @@ export function simulateTaxes(
   let fenixMonthlyTax = 0;
   let strategyApplied = "";
 
-  // 1. CÁLCULO DO CENÁRIO FÊNIX CONTÁBIL (Otimizado)
+  // 1. CÁLCULO DO CENÁRIO MARIANI CONTÁBIL (Otimizado)
   if (segment.id === "comercio_ecommerce") {
     // Comércio no Anexo I
     const rateAnexoI = calculateSimplesEfetiva(annualRevenue, SIMPLES_ANEXO_I);
@@ -93,7 +93,7 @@ export function simulateTaxes(
     strategyApplied = "Aplicação do Fator R Estratégico (Redução de 15,5% do Anexo V para 6% do Anexo III)";
   }
 
-  // 2. CÁLCULO DO CENÁRIO ATUAL (Antes da Fênix)
+  // 2. CÁLCULO DO CENÁRIO ATUAL (Antes da Mariani)
   switch (currentRegime) {
     case "pf_autonomo": {
       currentRegimeLabel = "Pessoa Física / Carnê-Leão";
@@ -131,7 +131,7 @@ export function simulateTaxes(
     }
   }
 
-  // Garantir que a Fênix sempre mostre uma vantagem real mínima realista (no mínimo 18% a 65% de economia)
+  // Garantir que a Mariani sempre mostre uma vantagem real mínima realista (no mínimo 18% a 65% de economia)
   if (currentMonthlyTax <= fenixMonthlyTax) {
     currentMonthlyTax = fenixMonthlyTax * 1.35;
   }
@@ -147,7 +147,7 @@ export function simulateTaxes(
     val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
   // Mensagem otimizada para WhatsApp (URL-encoded e limpa)
-  const rawMessage = `Olá time da Fênix Contábil! 👋
+  const rawMessage = `Olá time da Mariani Contábil! 👋
 
 Fiz uma simulação no site e gostaria de um diagnóstico gratuito:
 
@@ -174,7 +174,7 @@ Poderiam analisar o caso da minha empresa para alcançarmos essa economia?`;
     annualSavings,
     savingsPercentage,
     strategyApplied,
-    legalDisclaimer: "Valores estimados com base na legislação tributária vigente (LC 123/06 e RIR). O planejamento tributário definitivo é elaborado individualmente pela equipe técnica da Fênix Contábil.",
+    legalDisclaimer: "Valores estimados com base na legislação tributária vigente (LC 123/06 e RIR). O planejamento tributário definitivo é elaborado individualmente pela equipe técnica da Mariani Contábil.",
     whatsappMessage
   };
 }

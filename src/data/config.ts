@@ -25,7 +25,7 @@ export interface CompanyConfig {
 }
 
 export const COMPANY_CONFIG: CompanyConfig = {
-  name: "Fênix Contábil",
+  name: "Mariani Contábil",
   tagline: "Contabilidade Estratégica & Inteligência Tributária",
   description: "Há mais de 30 anos transformando números em lucro, blindagem jurídica e crescimento sustentável para empresas em todo o Brasil.",
   establishedYear: 1994,
@@ -33,7 +33,7 @@ export const COMPANY_CONFIG: CompanyConfig = {
   phoneDisplay: "(31) 3275-2526",
   phoneClean: "3132752526",
   whatsappNumber: "553132752526", // Altere aqui o número oficial do WhatsApp
-  email: "contato@fenixcontabil.com",
+  email: "contato@marianicontabil.com.br",
   address: {
     street: "Rua Bernardo Guimarães, 3.076",
     neighborhood: "Santo Agostinho / Barro Preto",
